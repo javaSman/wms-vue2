@@ -107,6 +107,13 @@ export const formList = [
       { label: '否', value: false }
     ],
     rules: [{ required: true, message: '请选择是否入立库', trigger: 'blur' }]
+  },
+  {
+    type: 'Number',
+    label: '峰值库存',
+    prop: 'TopQty',
+    min: 0,
+    rules: [{ required: true, message: '请输入峰值库存', trigger: 'blur' }]
   }
   // {
   //   type: 'Input',

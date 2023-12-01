@@ -265,7 +265,7 @@ export default {
             i++
           })
         }
-        API.dataPost(this.apiName, this.dataList, 'EditAll').then(res => {
+        API.dataPost('EditAllUserTableTemplateDetail', this.dataList, '').then(res => {
           this.show = false
           this.$emit('update:tableShow', false)
           this.$emit('update:detailTableShow', false)

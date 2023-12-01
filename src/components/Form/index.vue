@@ -9,6 +9,7 @@
       :rules="rules"
       :label-width="labelWidth + 'px'"
       :label-position="labelPosition"
+      @submit.native.prevent
     >
       <el-row :gutter="layout.gutter">
         <el-col
@@ -178,8 +179,7 @@
                 <span
                   v-if="item.showOptVal && item.optProps.suffix"
                   style="float: right; color: #8492a6; font-size: 13px"
-                  >{{ op[item.optProps.suffix] }}</span
-                >
+                >{{ op[item.optProps.suffix] }}</span>
                 <span v-else-if="item.showOptVal" style="float: right; color: #8492a6; font-size: 13px">{{
                   item.optProps ? op[item.optProps.value] : op.value
                 }}</span>
@@ -259,9 +259,9 @@
               <div
                 v-if="
                   item.count !== undefined &&
-                  item.options !== undefined &&
-                  item.optTotal > item.count &&
-                  item.options.length > item.count - 1
+                    item.options !== undefined &&
+                    item.optTotal > item.count &&
+                    item.options.length > item.count - 1
                 "
                 class="list-select-tip"
               >
@@ -270,7 +270,7 @@
               <div
                 v-if="
                   (item.count !== undefined && item.options !== undefined && item.options.length < item.count) ||
-                  item.count === undefined
+                    item.count === undefined
                 "
                 class="list-select-tip"
               >
@@ -447,7 +447,6 @@
               :show-all-levels="item.showAllLevels !== undefined ? item.showAllLevels : true"
               filterable
               clearable
-              @change="item.change ? item.change(formData[item.prop]) : ''"
               :style="'width:' + (item.width || '100%')"
               :props="
                 item.propsConfig || {
@@ -467,6 +466,7 @@
                   }
                 }
               "
+              @change="item.change ? item.change(formData[item.prop]) : ''"
             />
             <CascaderTree
               v-if="item.type === 'CascaderTree' && !item.isHide"

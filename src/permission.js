@@ -9,7 +9,7 @@ import { logon } from './api/wcsAPI'
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist
-const getLocationParams = (keyWords) => {
+const getLocationParams = keyWords => {
   // 提取路由值（字符串）
   let href = window.location.href
   // 从占位符开始截取路由（不包括占位符）
@@ -27,31 +27,34 @@ const getLocationParams = (keyWords) => {
 }
 // export const url_token = changeToken()
 function changeToken() {
-  var params = ''
-  /* 自动登录 */
-  if (window.location.href.indexOf('hk_user_token') !== -1) {
-    var data = getLocationParams('hk_user_token')
-    var token = {
-      Token: data
-    }
-    logon(token).then(res => {
-      if (res.IsError === false) {
-        params = data
-        sessionStorage.setItem('NewToken', data)
-      } else {
-        params = getToken()
-        window.alert(res.error)
+  return new Promise(async (resolve, reject) => {
+    let params = ''
+    /* 自动登录 */
+    if (window.location.href.indexOf('hk_user_token') !== -1) {
+      let data = getLocationParams('hk_user_token')
+      let token = {
+        Token: data
       }
-    })
-    return params
-  } else {
-    return getToken()
-  }
+      let res = await logon(token)
+      if (!res.IsError) {
+        params = res.access_token
+        sessionStorage.setItem('NewToken', params)
+        resolve(params)
+      } else {
+        Message({
+          message: res.error,
+          duration: 5000
+        })
+        reject(false)
+      }
+    } else {
+      resolve(getToken())
+    }
+  })
 }
 router.beforeEach(async (to, from, next) => {
   // start progress bar
   NProgress.start()
-
   // set page title
   document.title = getPageTitle(to.meta.title)
   // // var params = ''
@@ -73,7 +76,7 @@ router.beforeEach(async (to, from, next) => {
 
   // determine whether the user has logged in
   // const hasToken = getToken()
-  if (changeToken()) {
+  if (await changeToken()) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
       next({ path: '/' })
@@ -110,7 +113,6 @@ router.beforeEach(async (to, from, next) => {
     }
   } else {
     /* has no token*/
-
     if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly
       next()

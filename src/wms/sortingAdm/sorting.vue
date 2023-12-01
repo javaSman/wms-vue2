@@ -60,7 +60,7 @@
               />
             </el-tab-pane>
             <!-- '分拣箱明细' -->
-            <el-tab-pane :label="$t('dialogHeader.sortingBoxDetails')" name="sortingBoxDetails">
+            <!-- <el-tab-pane :label="$t('dialogHeader.sortingBoxDetails')" name="sortingBoxDetails">
               <ColDesign
                 tid="BoxDetailTable"
                 :col-list="columnBoxDetail"
@@ -84,7 +84,7 @@
                 :page-hidden="true"
                 :dict-gather="dictGather"
               />
-            </el-tab-pane>
+            </el-tab-pane> -->
           </el-tabs>
         </template>
       </split-pane>
@@ -159,7 +159,7 @@ export default {
       this.boxDetailListLoading = true
       this.formTitle = this.$t('dialog.edit') + this.dialogTitle // '编辑'
       this.isEdit = true
-      API.getForm(this.apiName, row.id).then(res => {
+      API.get(this.apiName, { id: row.id }).then(res => {
         this.detailTable = res.details
         this.form = res.header
         this.detailListLoading = false

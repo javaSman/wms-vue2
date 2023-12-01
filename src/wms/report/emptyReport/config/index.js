@@ -22,7 +22,7 @@ export const BtnItems = [
     langLabel: 'button.offShelf',
     clickFun: 'toOffShelf',
     disabled: '',
-    permission: '',
+    permission: 'Report.BlankReport.BatchOutShelves',
     styleType: 'danger',
     icon: ''
   }

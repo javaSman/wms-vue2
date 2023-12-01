@@ -212,6 +212,10 @@ export default {
     deviceExceptionReport: '设备异常报表',
     conveyorLineCacheReport: '输送线缓存报表',
     deliverability: '产能报表',
+    replenishmentReport: '补货报表',
+    boxPositionTrackProgressList: '箱子进度跟踪报表',
+    boxOutTargetWharfIdList: '箱子出库目标码头报表',
+    transferMaterialResumeList: '现场物料交接报表',
     // 订单管理
     orderManagement: '订单管理',
     DeliveryOrder: '送货单管理',

@@ -126,3 +126,63 @@ export function submit(data) {
     data
   })
 }
+
+// 任务管理-重发
+export function Resend(data) {
+  return request({
+    url: 'Wcs/WcsService.svc/rest/SetTaskInfoState',
+    method: 'post',
+    data
+  })
+}
+
+// 箱子进度跟踪报表
+export function GetRpBoxPositionTrackProgressList(data) {
+  return request({
+    url: 'Wcs/WcsService.svc/rest/GetRpBoxPositionTrackProgressList',
+    method: 'post',
+    data
+  })
+}
+
+// 补货报表查询
+export function GetReplenishmentReportList(data) {
+  return request({
+    url: '9037Wcf/WarehouseService.svc/Rest/GetReplenishmentReportList',
+    method: 'get',
+    params: data
+  })
+}
+
+/**
+ * 箱子出库目标码头报表
+ *  @function GetBoxOutTargetWharfIdList 查询
+ */
+export function GetBoxOutTargetWharfIdList(data) {
+  return request({
+    url: 'Wcs/WcsService.svc/rest/GetBoxOutTargetWharfIdList',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 箱子出库目标码头报表
+ *  @function ResetCache 删除
+ */
+export function ResetCache(data) {
+  return request({
+    url: 'Wcs/WcsService.svc/rest/ResetCache',
+    method: 'post',
+    data
+  })
+}
+
+// 现场物料交接报表-查询
+export function GetTransferMaterialResumeList(data) {
+  return request({
+    url: '9037Wcf/WarehouseService.svc/rest/GetTransferMaterialResumeList',
+    method: 'get',
+    params: data
+  })
+}

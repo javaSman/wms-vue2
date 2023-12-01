@@ -113,15 +113,31 @@ export default {
     },
     getDetail(row) {
       this.detailListLoading = true
-      this.detailQuery.id = row.id
-      API.getData('Adjust', this.detailQuery, this.multipleSelection[0].id).then(res => {
+      this.detailQuery.id = row.Id
+      API.getData('Adjust', this.detailQuery, [this.detailQuery.id]).then(res => {
         this.detailTable = res
         this.detailListLoading = false
       })
     },
     // 导出
-    handleDownloadPast() {
-      this.exportPast('Adjust', this.exportParams, 'Export')
+    async handleDownloadPast() {
+      if (this.list === null || this.list.length === 0) {
+        this.$message.warning('当前表格数据为空！')
+        return
+      }
+      try {
+        let data = JSON.parse(JSON.stringify(this.listQuery))
+        data['Type'] = 1
+        API.getData(this.apiName, data).then(res => {
+          if (res.IsError) {
+            this.$message.warning(res.ErrMsg)
+            return
+          }
+          window.location.href = res.exportUrl
+        })
+      } catch (e) {
+        console.log(e)
+      }
     },
     handleAgree(row) {
       if (row.row.status === '1') {
@@ -143,7 +159,7 @@ export default {
           type: 'warning'
         }).then(() => {
           let params = {
-            id: row.row.id,
+            id: row.row.Id,
             auditID: sessionStorage.getItem('users_name'),
             auditName: sessionStorage.getItem('name')
           }
@@ -188,7 +204,7 @@ export default {
           type: 'warning'
         }).then(() => {
           let params = {
-            id: row.row.id,
+            id: row.row.Id,
             auditID: sessionStorage.getItem('users_name'),
             auditName: sessionStorage.getItem('name')
           }

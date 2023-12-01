@@ -45,9 +45,9 @@ export const SortingDeskFormList = [
 
 // 权限
 export const SortingDeskCrud = {
-  add: 'Sorting.SortingDesk.Create',
-  edit: 'Sorting.SortingDesk.Update',
-  del: 'Sorting.SortingDesk.Delete'
+  add: 'SortingManagement.SortingDesk.Create',
+  edit: 'SortingManagement.SortingDesk.Update',
+  del: 'SortingManagement.SortingDesk.Delete'
 }
 // 分拣台----非标按钮
 export const sortingDeskBtnItem = [
@@ -55,7 +55,7 @@ export const sortingDeskBtnItem = [
     label: '补空箱',
     clickFun: 'toOutEmptyBox',
     disabled: 'single',
-    permission: 'Sorting.SortingDesk.Update',
+    permission: 'SortingManagement.SortingDesk.Update',
     styleType: 'danger',
     icon: 'el-icon-finished',
     loading: false
@@ -67,7 +67,7 @@ export const sortingBtnItem = [
     langLabel: 'button.cancel',
     clickFun: 'toCancel',
     disabled: 'multipe',
-    permission: 'Sorting.SortingHeader.Update',
+    permission: 'SortingManagement.SortingHeader.Delete',
     styleType: 'danger',
     icon: 'el-icon-close'
   }
@@ -79,7 +79,7 @@ export const sortingDetailBtnItem = [
     langLabel: 'button.cancel',
     clickFun: 'toCancel',
     disabled: 'multipe',
-    permission: 'Sorting.SortingHeader.Update',
+    permission: 'SortingManagement.SortingDetail.Delete',
     styleType: 'danger',
     icon: 'el-icon-close'
   }
@@ -90,7 +90,7 @@ export const sortingBoxBtnItems = [
     langLabel: 'button.Posting',
     clickFun: 'toPosting',
     disabled: 'single',
-    permission: 'Sorting.SortingHeader.Update',
+    permission: 'SortingManagement.SortingHeader.Update',
     styleType: 'danger',
     icon: 'el-icon-check'
   }

@@ -79,19 +79,19 @@ export default {
     //   })
     // },
     getDict() {
-      //移动类型
+      // 移动类型
       API.getDict('dict', { name: 'MovementType' }).then(res => {
         this.materialHistoryItems[7].options = res.details
       })
-      //载具装载状态
+      // 载具装载状态
       API.getDict('dict', { name: 'BoxState' }).then(res => {
         this.materialHistoryItems[16].options = res.details
       })
-      //载具位置状态
+      // 载具位置状态
       API.getDict('dict', { name: 'BoxPositionStatus' }).then(res => {
         this.materialHistoryItems[17].options = res.details
       })
-      //物料位置
+      // 物料位置
       API.getDict('dict', { name: 'MaterialLocation' }).then(res => {
         this.materialHistoryItems[18].options = res.details
       })
@@ -107,9 +107,22 @@ export default {
           this.multipleSelection.map(item => {
             Ids.push(item.id)
           })
-          this.exportPast('materialresume', { Ids: Ids }, 'export')
+          // this.exportPast('materialresume', { Ids: Ids }, 'export')
+          API.getData(this.apiName, { Ids: Ids, Type: 1 }).then(res => {
+            if (res.exportUrl) {
+              window.location.href = res.exportUrl
+              delete this.exportParams.Type
+            }
+          })
         } else {
-          this.exportPast('materialresume', this.exportParams, 'export')
+          this.exportParams.Type = 1
+          // this.exportPast('materialresume', this.exportParams, 'export')
+          API.getData(this.apiName, this.exportParams).then(res => {
+            if (res.exportUrl) {
+              window.location.href = res.exportUrl
+              delete this.exportParams.Type
+            }
+          })
         }
       }
     }

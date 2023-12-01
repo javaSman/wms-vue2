@@ -13,11 +13,21 @@
           <div class="text">分拣台：{{ id }}</div>
         </div>
         <div class="information">
-          <span v-if="sortMessage" class="info">工位: <span class="red">{{ sortMessage.StationID }}</span></span>
-          <span v-if="sortMessage" class="info">项目号: <span class="red">{{ sortMessage.ProjectNo }}</span></span>
-          <span v-if="sortMessage" class="info">领料人: <span>{{ sortMessage.cardName }}</span></span>
-          <span v-if="sortMessage" class="info">来源编号: <span>{{ sortMessage.sourceID }}</span></span>
-          <span v-if="sortMessage" class="info">订单号: <span>{{ sortMessage.orderID }}</span></span>
+          <span v-if="sortMessage" class="info">
+            工位: <span class="red">{{ sortMessage.StationID }}</span>
+          </span>
+          <span v-if="sortMessage" class="info">
+            项目号: <span class="red">{{ sortMessage.ProjectNo }}</span>
+          </span>
+          <span v-if="sortMessage" class="info">
+            领料人: <span>{{ sortMessage.cardName }}</span>
+          </span>
+          <span v-if="sortMessage" class="info">
+            来源编号: <span>{{ sortMessage.sourceID }}</span>
+          </span>
+          <span v-if="sortMessage" class="info">
+            订单号: <span>{{ sortMessage.orderID }}</span>
+          </span>
         </div>
         <div class="userInfo">
           <div style="margin-right: 5px">
@@ -34,8 +44,12 @@
             <div class="btn" style="display: inline-block; margin-right: 25px">
               <el-button type="primary" @click="toPrint">打印</el-button>
             </div>
-            <span class="info">账号: <span>{{ account }}</span></span>
-            <span class="info">用户名: <span>{{ userName }}</span></span>
+            <span class="info">
+              账号: <span>{{ account }}</span>
+            </span>
+            <span class="info">
+              用户名: <span>{{ userName }}</span>
+            </span>
           </div>
         </div>
       </div>
@@ -46,7 +60,9 @@
             <div class="priorityContent">
               等级（单量）:
               <el-radio-group v-model="radio" @change="levelClick">
-                <el-radio v-for="(item, index) in priority" :key="index" :label="item.PriorityName">{{ item.PriorityName }}({{ item.PriorityCount }})</el-radio>
+                <el-radio v-for="(item, index) in priority" :key="index" :label="item.PriorityName">
+                  {{ item.PriorityName }}({{ item.PriorityCount }})
+                </el-radio>
                 <!-- <el-radio :label="6">备选项</el-radio>
                 <el-radio :label="9">备选项</el-radio> -->
               </el-radio-group>
@@ -80,8 +96,13 @@
           <div class="contentRight-top">
             <div class="taskInfo">
               <div class="taskInfo-header">
-               <span class="taskInfo-left">分拣任务 <span v-if="sortMessage">（备料单号：{{ sortMessage.sourceID }}） </span></span>
-               <span class="taskInfo-right" :style="{color: [cacheState === '待拣料'?'gray':'green']}">{{cacheState}}</span>
+                <span class="taskInfo-left">
+                  分拣任务
+                  <span v-if="sortMessage">（备料单号：{{ sortMessage.sourceID }}） </span>
+                </span>
+                <span class="taskInfo-right" :style="{ color: [cacheState === '待拣料' ? 'gray' : 'green'] }">{{
+                  cacheState
+                }}</span>
               </div>
               <div class="table_material">
                 <el-table
@@ -113,8 +134,11 @@
                 </div>
                 <div class="img">
                   <span class="solid">
-                    <img src="../../../static/image/common/right.png" style="width: 18px; height: 18px" alt=""/></span>
-                  <span class="block">分拣数量: <span class="red">{{ num }}</span></span>
+                    <img src="../../../static/image/common/right.png" style="width: 18px; height: 18px" alt="" />
+                  </span>
+                  <span class="block">
+                    分拣数量: <span class="red">{{ num }}</span>
+                  </span>
                 </div>
                 <div class="targetBox">
                   <span class="red">目标</span><span style="color: #ffffff">箱子</span>
@@ -219,7 +243,7 @@ export default {
       formList,
       UpDowncolumns,
       socket: null,
-      id: this.$route.query.id,
+      id: localStorage.getItem('sortingID'),
       StationName: '',
       radio: '',
       formData: {},
@@ -244,8 +268,8 @@ export default {
       printBegin: false,
       sourceID: '',
       pickingID: '', // 选中备料单任务的单号
-      account: sessionStorage.getItem('users_name'),
-      userName: sessionStorage.getItem('name'),
+      account: localStorage.getItem('users_name'),
+      userName: localStorage.getItem('name'),
       orderNo: '', // 订单号
       timer: null,
       Priority: '', // 等级
@@ -291,10 +315,10 @@ export default {
       })
     }, 2000)
     const BoxsInfotimer = setInterval(() => {
-        this.handlePicking()
+      this.handlePicking()
     }, 1000)
     const cacheTimer = setInterval(() => {
-        this.getCache()
+      this.getCache()
     }, 1000)
     this.$once('hook:beforeDestroy', () => {
       // 再通过事件监听，监听组件销毁后，再执行关闭计时器。
@@ -412,21 +436,22 @@ export default {
     handlePicking() {
       getBoxsInfo({ WharfID: this.id }).then(res => {
         if (res.IsError === false) {
-            this.sortMessage = res.items[0]
-            this.task = res.items
-            this.task.forEach((val, index) => {
-              if (val.boxID === this.sourceBox) {
-                this.num = parseInt(val.sortingQuantity)
-                this.task.unshift(this.task.splice(index, 1)[0])
-              }
-            })
+          this.sortMessage = res.items[0]
+          this.task = res.items
+          this.task.forEach((val, index) => {
+            if (val.boxID === this.sourceBox) {
+              this.num = parseInt(val.sortingQuantity)
+              this.task.unshift(this.task.splice(index, 1)[0])
+            }
+          })
         }
       })
     },
     // 获取拣料状态
     getCache() {
-      let id = this.id.substring(0,this.id.indexOf("_"))
-      GetCacheValue({key:'ConfirmBoxs:'+ id}).then(res => {
+      let id = this.id.substring(0, this.id.indexOf('_'))
+      GetCacheValue({ key: 'ConfirmBoxs:' + id })
+        .then(res => {
           if (res === '不存在！') {
             this.cacheState = '待拣料'
           } else {
@@ -437,7 +462,8 @@ export default {
     },
     // 下架
     toShelf(data) {
-      getShelf(data).then(res => {
+      getShelf(data)
+        .then(res => {
           if (res.IsError === false) {
             this.$message({
               message: '下架成功！',
@@ -545,10 +571,10 @@ export default {
         barCodeList: [this.formData.barcode],
         boxNo: this.sourceBox,
         targetBoxID: this.targetBox,
-        cardName: sessionStorage.getItem('name'),
-        cardNo: sessionStorage.getItem('users_name'),
-        cardNewName: sessionStorage.getItem('name'),
-        cardNoNew: sessionStorage.getItem('users_name'),
+        cardName: localStorage.getItem('name'),
+        cardNo: localStorage.getItem('users_name'),
+        cardNewName: localStorage.getItem('name'),
+        cardNoNew: localStorage.getItem('users_name'),
         oclas: 'XWMS315',
         orderId: this.sortMessage.orderID,
         warehouseNo: 'ZNC03'
@@ -579,7 +605,11 @@ export default {
           alert('您的浏览器不支持socket')
         } else {
           // 实例化socket
-          const path = window.globalConfig.base.websocket_ip + ':' + window.globalConfig.base.websocket_port + '/websocket?groupId=0'
+          const path =
+            window.globalConfig.base.websocket_ip +
+            ':' +
+            window.globalConfig.base.websocket_port +
+            '/websocket?groupId=0'
           this.socket = new WebSocket(path)
           // console.log(this.socket, '12344')
           // 监听socket连接
@@ -644,7 +674,7 @@ export default {
       }
     },
     send() {
-      this.socket.send(params)
+      // this.socket.send(params)
     },
     close() {
       this.reconnect()
@@ -870,12 +900,12 @@ export default {
   align-content: center;
   justify-content: flex-start;
 }
-.contentRight-top .taskInfo .taskInfo-header .taskInfo-right{
+.contentRight-top .taskInfo .taskInfo-header .taskInfo-right {
   display: block;
   width: 15%;
   text-align: right;
 }
-.contentRight-top .taskInfo .taskInfo-header .taskInfo-left{
+.contentRight-top .taskInfo .taskInfo-header .taskInfo-left {
   display: block;
   flex: 1;
 }

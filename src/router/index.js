@@ -83,20 +83,6 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/sortingTable',
-    component: Layout,
-    redirect: '/sortingTable',
-    children: [
-      {
-        path: 'sortingTable',
-        component: () => import('@/views/sortingTable/sortingTable'),
-        name: 'sortingTable',
-        meta: { title: 'sortingTable', icon: 'dashboard' }
-        // meta: { title: 'sortingTable', icon: 'dashboard', affix: true }
-      }
-    ]
-  },
-  {
     path: '/sortingDetailNew',
     component: Layout,
     redirect: '/sortingDetailNew',
@@ -132,6 +118,26 @@ export const constantRoutes = [
  * 需要根据用户角色动态加载的路由
  */
 export const asyncRoutes = [
+  // 分拣台
+  {
+    path: '/sortingTable',
+    component: Layout,
+    redirect: '/sortingTable',
+    roles: ['SortingDeskManagement'],
+    children: [
+      {
+        path: 'sortingTable',
+        component: () => import('@/views/sortingTable/sortingTable'),
+        name: 'sortingTable',
+        meta: {
+          title: 'sortingTable',
+          icon: 'dashboard',
+          roles: ['SortingDeskManagement']
+        }
+        // meta: { title: 'sortingTable', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
   {
     path: '/system',
     component: Layout,
@@ -195,6 +201,7 @@ export const asyncRoutes = [
           icon: 'colModel'
         }
       },
+
       // 在线用户
       {
         path: 'onlineUsers',
@@ -379,7 +386,7 @@ export const asyncRoutes = [
         name: 'SAPWarehousePermission',
         meta: {
           title: 'SAPWarehousePermission',
-          // roles: ['WarehouseManagement.Locations'],
+          roles: ['WarehouseManagement.SapWarehouse'],
           icon: 'locations'
         }
       },
@@ -401,7 +408,7 @@ export const asyncRoutes = [
         name: 'Wharf',
         meta: {
           title: 'wharf',
-          roles: ['WarehouseManagement'],
+          roles: ['WarehouseManagement.Wharf'],
           icon: 'wharf'
         }
       },
@@ -409,10 +416,10 @@ export const asyncRoutes = [
       {
         path: 'device',
         component: () => import('@/wms/baseData/device/index.vue'),
-        name: 'device',
+        name: 'Device',
         meta: {
           title: 'device',
-          roles: ['WarehouseManagement'],
+          roles: ['WarehouseManagement.Device'],
           icon: 'baseData'
         }
       }
@@ -428,7 +435,7 @@ export const asyncRoutes = [
     meta: {
       title: 'sortingAdm',
       icon: 'sortingAdm',
-      roles: ['Sorting']
+      roles: ['SortingManagement']
     },
     children: [
       {
@@ -437,7 +444,7 @@ export const asyncRoutes = [
         name: 'Sorting',
         meta: {
           title: 'sorting',
-          roles: ['Sorting.SortingHeader'],
+          roles: ['SortingManagement.SortingHeader'],
           icon: 'sorting'
         }
       },
@@ -447,7 +454,7 @@ export const asyncRoutes = [
         name: 'SortingDesk',
         meta: {
           title: 'sortingDesk',
-          roles: ['Sorting.SortingDesk'],
+          roles: ['SortingManagement.SortingDesk'],
           icon: 'sortingDesk'
         }
       }
@@ -528,7 +535,7 @@ export const asyncRoutes = [
         name: 'HandoverList',
         meta: {
           title: 'handoverList',
-          // roles: ['Report.BarcodeLog'],
+          roles: ['MaterialHandoverManagement.Handover'],
           icon: 'inShelves'
         }
       },
@@ -550,7 +557,7 @@ export const asyncRoutes = [
         name: 'OutboundReport',
         meta: {
           title: 'outboundReport',
-          // roles: ['Report.BarcodeLog'],
+          roles: ['Report.OutCargoReport'],
           icon: 'inShelves'
         }
       },
@@ -561,7 +568,7 @@ export const asyncRoutes = [
         name: 'CardBoardHandover',
         meta: {
           title: 'cardBoardHandover',
-          // roles: ['Report.BarcodeLog'],
+          roles: ['Report.HandoverOfCardReport'],
           icon: 'inShelves'
         }
       },
@@ -572,7 +579,7 @@ export const asyncRoutes = [
         name: 'ReceiptReport',
         meta: {
           title: 'receiptReport',
-          // roles: ['Report.BarcodeLog'],
+          roles: ['Report.ReceiveGoodsReport'],
           icon: 'inShelves'
         }
       },
@@ -583,7 +590,7 @@ export const asyncRoutes = [
         name: 'EmptyReport',
         meta: {
           title: 'emptyReport',
-          // roles: ['Report.BarcodeLog'],
+          roles: ['Report.BlankReport'],
           icon: 'inShelves'
         }
       },
@@ -605,7 +612,7 @@ export const asyncRoutes = [
         name: 'DeviceExceptionReport',
         meta: {
           title: 'deviceExceptionReport',
-          roles: ['Report'],
+          roles: ['Report.DeviceErrorReport'],
           icon: 'inShelves'
         }
       },
@@ -616,7 +623,7 @@ export const asyncRoutes = [
         name: 'ConveyorLineCacheReport',
         meta: {
           title: 'conveyorLineCacheReport',
-          roles: ['Report'],
+          roles: ['Report.LineCacheReport'],
           icon: 'inShelves'
         }
       },
@@ -627,7 +634,51 @@ export const asyncRoutes = [
         name: 'Deliverability',
         meta: {
           title: 'deliverability',
-          roles: ['Report'],
+          roles: ['Report.Deliverability'],
+          icon: 'inShelves'
+        }
+      },
+      // 补货报表
+      {
+        path: 'replenishmentReport',
+        component: () => import('@/wms/report/replenishmentReport/index.vue'),
+        name: 'ReplenishmentReport',
+        meta: {
+          title: 'replenishmentReport',
+          // roles: [''],
+          icon: 'inStockAdm'
+        }
+      },
+      // 箱子进度跟踪报表
+      {
+        path: 'boxPositionTrackProgressList',
+        component: () => import('@/wms/report/boxPositionTrackProgressList/index.vue'),
+        name: 'BoxPositionTrackProgressList',
+        meta: {
+          title: 'boxPositionTrackProgressList',
+          // roles: [''],
+          icon: 'inStockAdm'
+        }
+      },
+      /* 箱子出库目标码头报表 */
+      {
+        path: 'boxOutTargetWharfIdList',
+        component: () => import('@/wms/report/boxOutTargetWharfIdList/index.vue'),
+        name: 'BoxOutTargetWharfIdList',
+        meta: {
+          title: 'boxOutTargetWharfIdList',
+          // roles: [''],
+          icon: 'inShelves'
+        }
+      },
+      // 现场物料交接报表
+      {
+        path: 'transferMaterialResumeList',
+        component: () => import('@/wms/report/transferMaterialResumeList/index.vue'),
+        name: 'TransferMaterialResumeList',
+        meta: {
+          title: 'transferMaterialResumeList',
+          // roles: ['Report.transferMaterialResumeList'],
           icon: 'inShelves'
         }
       }
@@ -722,7 +773,7 @@ export const asyncRoutes = [
     name: 'InStockAdm',
     meta: {
       title: 'inStockAdm',
-      roles: ['InStock'],
+      roles: ['InshelvesManagement'],
       icon: 'inStockAdm'
     },
     children: [
@@ -732,7 +783,7 @@ export const asyncRoutes = [
         name: 'InShelves',
         meta: {
           title: 'inShelves',
-          roles: ['InStock.InShelves'],
+          roles: ['InshelvesManagement.Inshelves'],
           icon: 'inShelves'
         }
       }
@@ -747,7 +798,7 @@ export const asyncRoutes = [
     name: 'OutStockAdm',
     meta: {
       title: 'outStockAdm',
-      roles: ['OutStock'],
+      roles: ['OutshelvesManagement'],
       icon: 'outStockAdm'
     },
     children: [
@@ -757,7 +808,7 @@ export const asyncRoutes = [
         name: 'OutShelves',
         meta: {
           title: 'outShelves',
-          roles: ['OutStock.OutShelves'],
+          roles: ['OutshelvesManagement.Outshelves'],
           icon: 'outShelves'
         }
       },
@@ -767,7 +818,7 @@ export const asyncRoutes = [
         name: 'OutStockRequest',
         meta: {
           title: 'outStockRequest',
-          roles: ['OutStock'],
+          roles: ['OutshelvesManagement.OutStockRequest'],
           icon: 'outStockRequest'
         }
       }
@@ -793,7 +844,7 @@ export const asyncRoutes = [
         name: 'ReadyMaterials',
         meta: {
           title: 'readyMaterials',
-          roles: ['PickingManagement.PickingResume'],
+          roles: ['PickingManagement.PickingHeader'],
           icon: 'readyMaterials'
         }
       },
@@ -841,7 +892,7 @@ export const asyncRoutes = [
     name: 'AGVManagement',
     meta: {
       title: 'agvManagement',
-      // roles: ['AGVManagement'],
+      roles: ['AGVManagement'],
       icon: 'wcsTask'
     },
     children: [
@@ -851,7 +902,7 @@ export const asyncRoutes = [
         name: 'AGVPickOrderDetailAdm',
         meta: {
           title: 'agvPickOrderDetailAdm',
-          // roles: ['OutStock.ReadyMaterials'],
+          roles: ['AGVManagement.AGVPickOrderDetailAdm'],
           icon: 'agvPickOrderDetailAdm'
         }
       },
@@ -861,7 +912,7 @@ export const asyncRoutes = [
         name: 'AGVTaskAdm',
         meta: {
           title: 'agvTaskAdm',
-          // roles: ['OutStock.ReadyMaterials'],
+          roles: ['AGVManagement.AGVTaskAdm'],
           icon: 'agvTaskAdm'
         }
       }
@@ -876,7 +927,7 @@ export const asyncRoutes = [
     name: 'FourDataagvManagement',
     meta: {
       title: 'fourDataagvManagement',
-      // roles: ['AGVManagement'],
+      roles: ['FourDataagvManagement'],
       icon: 'wcsTask'
     },
     children: [
@@ -887,7 +938,7 @@ export const asyncRoutes = [
         name: 'CallAGVWarehousing',
         meta: {
           title: 'callAGVWarehousing',
-          // roles: ['WarehouseManagement.Locations'],
+          roles: ['FourDataagvManagement.CallAGVWarehousing'],
           icon: 'callAGVWarehousing'
         }
       },
@@ -898,7 +949,7 @@ export const asyncRoutes = [
         name: 'AGVTask',
         meta: {
           title: 'FouragvTask',
-          // roles: ['WarehouseManagement.Locations'],
+          roles: ['FourDataagvManagement.FouragvTask'],
           icon: 'agvTask'
         }
       }
@@ -913,7 +964,7 @@ export const asyncRoutes = [
     name: 'XiongtaoAGVTask',
     meta: {
       title: 'xiongtaoAGVTask',
-      // roles: [''],
+      roles: ['XiongtaoAGVTask'],
       icon: 'wcsTask'
     },
     children: [
@@ -924,7 +975,7 @@ export const asyncRoutes = [
         name: 'AGVTaskTwo',
         meta: {
           title: 'AGVTask',
-          // roles: [''],
+          roles: ['XiongtaoAGVTask.AGVTaskTwo'],
           icon: 'AGVTask'
         }
       }

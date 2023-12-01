@@ -100,10 +100,10 @@ export const wcsBtnItems = [
     langLabel: 'button.reportTask',
     clickFun: 'toReportTask',
     disabled: 'multipe',
-    permission: 'TaskInfoManage.TaskInfo',
+    permission: 'TaskInfoManage.TaskInfo.Update',
     styleType: 'primary',
     icon: 'el-icon-edit'
-  }
+  },
   // {
   //   // 执行
   //   langLabel: 'button.execute',
@@ -123,14 +123,14 @@ export const wcsBtnItems = [
   //   icon: 'el-icon-close'
   // },
 
-  // {
-  //   // 重发
-  //   langLabel: 'button.resend',
-  //   clickFun: 'toResend',
-  //   disabled: 'single',
-  //   loading: false,
-  //   permission: 'TaskInfoManage.TaskInfo.Create',
-  //   styleType: 'success',
-  //   icon: 'el-icon-refresh-left'
-  // }
+  {
+    // 重发
+    langLabel: 'button.resend',
+    clickFun: 'toResend',
+    disabled: 'single',
+    loading: false,
+    permission: 'TaskInfoManage.TaskInfo.Reset',
+    styleType: 'success',
+    icon: 'el-icon-refresh-left'
+  }
 ]

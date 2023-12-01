@@ -43,6 +43,7 @@ export default {
   // },
   methods: {
     toClick(id) {
+      localStorage.setItem('sortingID', id)
       this.$router.push({ path: '/sortingDetailNew/sortingDetailNew', query: { id: id } })
     },
     // 设置表头行的样式
@@ -74,7 +75,7 @@ export default {
       console.log(msg)
     },
     send() {
-      this.socket.send(params)
+      // this.socket.send(params)
     },
     close() {
       this.socket.onconnect = this.connect()

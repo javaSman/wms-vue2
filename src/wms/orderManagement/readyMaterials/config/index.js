@@ -118,7 +118,7 @@ export const readyMaterialsHeaderBtnItems = [
     langLabel: 'button.outShelves',
     clickFun: 'toOutShelves',
     disabled: 'multipe',
-    permission: 'OutStock.ReadyMaterials.Create',
+    permission: 'PickingManagement.PickingHeader.BatchOutShelves',
     styleType: 'danger',
     icon: 'el-icon-finished'
   },
@@ -148,7 +148,7 @@ export const readyMaterialsBtnItems = [
     langLabel: 'button.batchShelves',
     clickFun: 'toBatchOutShelves',
     disabled: 'multipe',
-    permission: 'OutStock.ReadyMaterials.Create',
+    permission: 'PickingManagement.PickingDetail.BatchOutShelves',
     styleType: 'danger',
     icon: 'el-icon-finished'
   },

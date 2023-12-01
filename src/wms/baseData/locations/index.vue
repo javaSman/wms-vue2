@@ -199,7 +199,6 @@ export default {
   created() {
     this.formChange()
     this.getDict()
-    this.getWarehouse()
     this.getwarehouseNew()
     this.queryItems.forEach(item => {
       switch (item.prop) {
@@ -279,26 +278,7 @@ export default {
         }
       })
     },
-    // cbgRemote(node, str) {
-    //   // if (node === this.boxcbgAttr.prop) {
-    //   //   this.getCbgRemoteSearch(this.boxcbgAttr, 'box', { BoxID: str })
-    //   // }
-    //   if (node === this.warehousecbgAttr.prop) {
-    //     this.getCbgRemoteSearch(this.warehousecbgAttr, 'warehouse', { WarehouseNo: str })
-    //   }
-    // },
 
-    getWarehouse() {
-      API.get('warehouse', { IsPage: false }, 'all').then(res => {
-        // let arr = []
-        res.items.forEach(item => {
-          // arr.push(item.WarehouseNo)
-          item.label = item.warehouseName
-          item.value = item.warehouseNo
-        })
-        this.queryItems[2].options = res.items
-      })
-    },
     // 下拉框获取新的仓库编码options
     getNewWarehouse() {
       API.get('warehouse', { IsPage: false }, 'all').then(res => {
@@ -335,6 +315,7 @@ export default {
     Floor() {
       this.getNewFloor()
     },
+    // 获取仓库信息
     getwarehouseNew() {
       API.get('warehouse', { IsPage: false }, 'all').then(res => {
         // let arr = []
@@ -344,117 +325,33 @@ export default {
           item.value = item.warehouseNo
         })
         this.configFormList[0].options = res.items
+        this.queryItems[2].options = res.items
       })
     },
+
+    // 获取码头下拉框数据
+    getWharf(val) {
+      API.getDict('dict', { name: this.val + '_' + 'Wharf' }).then(res => {
+        this.configFormList[1].options = res.details
+      })
+    },
+    // 下架
     handleDownSet() {
-      // this.$confirm('确定执行下架操作吗？', '提示', {
-      //   confirmButtonText: '确定',
-      //   cancelButtonText: '取消',
-      //   type: 'warning'
-      // }).then(() => {
-      //   let row = this.multipleSelection
-      //   let multipeResult = row.map(item => {
-      //     return { locationID: item.locationID, WarehouseNo: item.WarehouseNo }
-      //   })
-      //   API.dataPost('locations', multipeResult, 'CreateOutTask').then(res => {
-      //     // console.log(res)
-      //     if (res.success) {
-      //       this.$notify({
-      //         title: this.$t('notify.success'), // '成功'
-      //         message: '下架成功', // '操作成功',
-      //         type: 'success',
-      //         duration: 2000
-      //       })
-      //       this.getList()
-      //     } else {
-      //       this.$notify({
-      //         title: this.$t('notify.failure'), // '失败'
-      //         message: this.$t('notify.operateFailure') + ',' + res.message, // '操作失败',
-      //         type: 'error',
-      //         duration: 2000
-      //       })
-      //     }
-      //   })
-      // })
       this.dialogShelfVisible = true
-      this.getwarehouseNew()
-      this.$set(this.shelfForm, 'warehouse', this.value)
-      if (this.listQuery.warehouseNo === undefined) {
-        this.configFormList.forEach(item => {
-          switch (item.prop) {
-            case 'warehouse': {
-              item.change = () => {
-                this.warehouseNew = this.shelfForm.warehouse
-                this.warehouse_Wharf = this.warehouseNew + '_' + 'Wharf'
-                API.getData('dict', { SkipCount: 0, MaxResultCount: 20 }, 'all').then(res => {
-                  res.items.forEach(item => {
-                    this.DictName = item.name
-                    if (this.DictName.includes(this.warehouse_Wharf)) {
-                      API.getDict('dict', { name: this.warehouse_Wharf }).then(res => {
-                        this.configFormList[1].options = res.details
-                      })
-                    } else {
-                      // setTimeout(() => {
-                      this.configFormList[1].options = []
-                      this.$set(this.shelfForm, 'wharfNo', '')
-                      // }, 100)
-                    }
-                  })
-                })
-              }
-              break
-            }
-          }
-        })
-      } else {
-        if (this.shelfForm.warehosue !== '') {
-          this.warehouseNew = this.shelfForm.warehouse
-          this.warehouse_Wharf = this.warehouseNew + '_' + 'Wharf'
-          API.getData('dict', { SkipCount: 0, MaxResultCount: 20 }, 'all').then(res => {
-            res.items.forEach(item => {
-              this.DictName = item.name
-              if (this.DictName.includes(this.warehouse_Wharf)) {
-                API.getDict('dict', { name: this.warehouse_Wharf }).then(res => {
-                  this.configFormList[1].options = res.details
-                })
-              } else {
-                // setTimeout(() => {
-                this.configFormList[1].options = []
-                this.$set(this.shelfForm, 'wharfNo', '')
-                // }, 100)
-              }
-            })
-          })
-        }
-        if (this.shelfForm.warehosue === undefined) {
-          this.configFormList.forEach(item => {
-            switch (item.prop) {
-              case 'warehouse': {
-                item.change = () => {
-                  this.warehouseNew = this.shelfForm.warehouse
-                  this.warehouse_Wharf = this.warehouseNew + '_' + 'Wharf'
-                  API.getData('dict', { SkipCount: 0, MaxResultCount: 20 }, 'all').then(res => {
-                    res.items.forEach(item => {
-                      this.DictName = item.name
-                      if (this.DictName.includes(this.warehouse_Wharf)) {
-                        API.getDict('dict', { name: this.warehouse_Wharf }).then(res => {
-                          this.configFormList[1].options = res.details
-                        })
-                      } else {
-                        // setTimeout(() => {
-                        this.configFormList[1].options = []
-                        this.$set(this.shelfForm, 'wharfNo', '')
-                        // }, 100)
-                      }
-                    })
-                  })
-                }
-                break
-              }
-            }
-          })
-        }
+      this.$set(this.shelfForm, 'warehouse', this.listQuery.warehouseNo) // 将查询条件选择的仓库名称赋值给表单
+      if (this.listQuery.warehouseNo && this.listQuery.warehouseNo !== '') {
+        this.getWharf(this.listQuery.warehouseNo)
       }
+      // 根据仓库编码的值，获取码头下拉框的值
+      this.configFormList.forEach(item => {
+        switch (item.prop) {
+          case 'warehouse':
+            item.change = val => {
+              this.getWharf(val)
+            }
+            break
+        }
+      })
     },
     /* 下架确定 */
     toReportShelf() {

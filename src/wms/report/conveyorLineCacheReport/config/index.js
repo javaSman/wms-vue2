@@ -4,7 +4,9 @@ export const queryItems = [
     prop: 'WarehouseId',
     label: '仓库名称',
     options: []
-  }
+  },
+  { type: 'Input', label: '箱子号', prop: 'BoxId' },
+  { type: 'Input', label: '楼层', prop: 'Floor' }
 ]
 
 export const formList = [

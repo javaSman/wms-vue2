@@ -120,6 +120,9 @@ export default {
       layout: { gutter: undefined, span: 12, xs: 24, sm: 12, md: 8, xl: 6 }
     }
   },
+  created() {
+    this.formChange()
+  },
   methods: {
     getOpts() {
       identityAPI.getForm('roles', 'all').then(res => {
@@ -173,7 +176,7 @@ export default {
     /** 新增编辑-自定义提交方法-未填写邮箱时，赋默认值 */
     submit(value) {
       if (value.email === '' || value.email === null || !value.email) {
-        this.$set(value, 'email', 'user@example.com')
+        this.$set(value, 'email', value.userName + '@qq.com')
       }
     },
     handleRePassword() {
@@ -224,6 +227,18 @@ export default {
           this.TBDialogVisible = false
         })
       return true
+    },
+    // 用户输入框失焦事件
+    formChange() {
+      this.createFormList.forEach(item => {
+        if (item.prop === 'userName') {
+          item.blur = row => {
+            if (row) {
+              this.$set(this.form, 'email', row + '@qq.com')
+            }
+          }
+        }
+      })
     }
   }
 }

@@ -124,7 +124,7 @@ export default {
     /** 获取列表 */
     getList() {
       this.listLoading = true
-      this.listQuery.SkipCount = (this.page - 1) * 10
+      this.listQuery.SkipCount = (this.page - 1) * this.listQuery.MaxResultCount
       this.list = [{ id: 1, planId: '125566455454541', area: '区域1', method: '测试方法', inventoryChecker: 'lisan' }]
       this.totalCount = 100
       this.listLoading = false

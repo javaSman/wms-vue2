@@ -84,7 +84,7 @@ export default {
   mounted() {},
   methods: {
     getList() {
-      this.listQuery.SkipCount = (this.page - 1) * 10
+      this.listQuery.SkipCount = (this.page - 1) * this.listQuery.MaxResultCount
       agvAPI.get('agvTask', this.listQuery, 'all').then(res => {
         this.list = res.items
         this.totalCount = res.totalCount

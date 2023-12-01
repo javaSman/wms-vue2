@@ -95,7 +95,7 @@ export const formList = [
     type: 'Number',
     label: '巷道',
     prop: 'alley',
-    min: 0,
+    min: 0
     // rules: [{ required: true, message: '请输入巷道', trigger: 'blur' }]
   },
   {

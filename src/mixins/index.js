@@ -234,7 +234,8 @@ export default {
     exportTwo(name, params, otherExport) {
       this.downloadLoading = true
       let other = otherExport || 'Export'
-      agvAPI.getData(name, params, other)
+      agvAPI
+        .getData(name, params, other)
         .then(res => {
           if (res !== '') {
             var url = window.globalConfig.base.ip + ':' + window.globalConfig.base.backend_port + res

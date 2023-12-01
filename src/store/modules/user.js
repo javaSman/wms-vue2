@@ -40,6 +40,8 @@ const actions = {
           setToken(response.access_token)
           sessionStorage.setItem('name', response.name)
           sessionStorage.setItem('users_name', response.users_name)
+          localStorage.setItem('name', response.name)
+          localStorage.setItem('users_name', response.users_name)
           resolve()
         })
         .catch(error => {

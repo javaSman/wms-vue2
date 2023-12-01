@@ -107,25 +107,27 @@ export default {
       API.getDict('dict', { name: 'BoxPositionStatus' }).then(res => {
         this.inventoryReportItems[3].options = res.details
       })
-      //载具装载状态
+      // 载具装载状态
       API.getDict('dict', { name: 'BoxState' }).then(res => {
         this.inventoryReportItems[4].options = res.details
       })
     },
-    handleDownloadPast() {
-      if (this.list === null) {
+    async handleDownloadPast() {
+      if (this.list === null || this.list.length === 0) {
         this.$message.warning('当前表格数据为空！')
-      } else {
-        let Ids = [] // 选中的id集
-        if (this.multipleSelection.length > 0) {
-          //  如果有选中的数据，就导出选中的数据，否则全部导出或根据搜索条件导出
-          this.multipleSelection.map(item => {
-            Ids.push(item.id)
-          })
-          this.exportPast('BoxInventory', { Ids: Ids }, 'export')
-        } else {
-          this.exportPast('BoxInventory', this.exportParams, 'export')
+        return
+      }
+      try {
+        let data = JSON.parse(JSON.stringify(this.listQuery))
+        data['Type'] = 1
+        let res = await API.get('BoxInventory', data, 'all')
+        if (res.IsError) {
+          this.$message.warning(res.ErrMsg)
+          return
         }
+        window.location.href = res.exportUrl
+      } catch (e) {
+        console.log(e)
       }
     }
   }

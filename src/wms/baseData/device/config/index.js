@@ -88,7 +88,7 @@ export const formList = [
     type: 'Number',
     label: '最大缓存',
     prop: 'maxCach',
-    min: 0,
+    min: 0
     // rules: [
     //   { required: true, message: '请输入最大缓存', trigger: 'blur' },
     //   { pattern: /^[1-9]*[1-9][0-9]*$/, message: '请输入大于0的数', trigger: 'blur' }

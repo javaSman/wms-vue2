@@ -148,7 +148,7 @@ export const locationsBtnItems = [
     langLabel: 'button.outShelves',
     clickFun: 'todownSet',
     disabled: true,
-    permission: '',
+    permission: 'WarehouseManagement.Locations.BatchOutShelves',
     styleType: 'danger',
     icon: 'el-icon-finished'
   }

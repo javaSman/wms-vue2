@@ -138,7 +138,7 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      this.listQuery.SkipCount = (this.page - 1) * 10
+      this.listQuery.SkipCount = (this.page - 1) * this.listQuery.MaxResultCount
       tenantApi.getTenants(this.listQuery).then(res => {
         this.list = res.items
         this.totalCount = res.totalCount

@@ -73,6 +73,7 @@
       :form-data="form"
       :is-edit="isEdit"
       :api-name="apiName"
+      :submit="submit"
       @create="handleCreate"
       @cancel="cancel"
       @reset="reset"
@@ -241,6 +242,27 @@ export default {
             message: this.$t('notify.cancelDel') // '已取消删除'
           })
         })
+    },
+    // 重写修改方法
+    submit() {
+      if (this.isEdit) {
+        API.dataPost(this.apiName, this.form, 'UpdateDict')
+          .then(res => {
+            this.formLoading = false
+            this.$notify({
+              title: this.$t('notify.success'), // '成功'
+              message: this.$t('notify.editSuccess'), // '更新成功'
+              type: 'success',
+              duration: 2000
+            })
+          })
+          .catch(() => {
+            this.formLoading = false
+          })
+        return true
+      } else {
+        return false
+      }
     }
   }
 }

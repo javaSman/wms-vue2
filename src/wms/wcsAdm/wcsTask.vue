@@ -63,16 +63,17 @@
 import CrudOperation from '@/components/Crud/CRUD.operation'
 import Table from '@/components/Table'
 import EditForm from '@/components/EditDialog'
-import ReportTaskDialog from './module/reportTaskDialog'
+// import ReportTaskDialog from './module/reportTaskDialog'
 import { API } from '@/api/generalAPI'
 import colDesign from '@/mixins/colDesign'
 import filterContainer from '@/mixins/filterContainer'
 import basics from '@/mixins'
 import { queryItems, wcsFormList, reportFormList, wcsBtnItems, WcsCrud } from './config'
 import permission from '@/directive/permission/index.js'
+import { Resend } from '@/api/wcsAPI'
 export default {
   name: 'WCSTask',
-  components: { Table, EditForm, CrudOperation, ReportTaskDialog },
+  components: { Table, EditForm, CrudOperation },
   directives: { permission },
   mixins: [colDesign, filterContainer, basics],
   data() {
@@ -191,7 +192,8 @@ export default {
         arr.push(item.id)
         this.contentData = {
           id: arr,
-          state: this.form.state
+          state: this.form.state,
+          UpdatePerson: sessionStorage.getItem('users_name') + '-' + sessionStorage.getItem('name')
         }
       })
       API.dataPost('Stacker', this.contentData, 'SetTaskState').then(res => {
@@ -240,6 +242,51 @@ export default {
       //   })
       // }
       return true
+    },
+    /** 重发 */
+    handleResend() {
+      let row = this.multipleSelection[0]
+      if (row.state === '创建') {
+        this.$message({
+          message: '创建状态不能点重发',
+          type: 'warning'
+        })
+      } else {
+        this.$confirm('确定重发吗？', '提示', {
+          confirmButtonText: this.$t('button.confirm'), // '确认'
+          cancelButtonText: this.$t('button.cancel'), // '取消'
+          type: 'warning'
+        })
+          .then(() => {
+            let param = {
+              TaskId: row.taskId,
+              DeviceID: row.deviceID,
+              State: 'Assign',
+              WarehouseID: row.warehouseID,
+              Type: '1'
+            }
+            Resend(param).then(res => {
+              if (res.Success) {
+                this.$message({
+                  message: res.Message,
+                  type: 'success'
+                })
+              } else {
+                this.$message({
+                  message: res.Message,
+                  type: 'error'
+                })
+              }
+              this.getList()
+            })
+          })
+          .catch(() => {
+            this.$message({
+              type: 'info',
+              message: this.$t('notify.hasCanceled') // '已取消'
+            })
+          })
+      }
     },
     /** 取消 */
     handleCancel() {

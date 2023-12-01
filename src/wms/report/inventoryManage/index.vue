@@ -318,88 +318,29 @@ export default {
         this.configFormList[0].options = this.inventoryItems[5].options = res.items
       })
     },
+    // 获取码头下拉框数据
+    getWharf(val) {
+      API.getDict('dict', { name: this.val + '_' + 'Wharf' }).then(res => {
+        this.configFormList[1].options = res.details
+      })
+    },
     /* 下架 */
     handleOffShelf() {
-      // console.log(this.value)
       this.dialogShelfVisible = true
-      this.getwarehouse()
-      this.$set(this.shelfForm, 'warehouse', this.value)
-      if (this.listQuery.warehouseNo === undefined) {
-        this.configFormList.forEach(item => {
-          switch (item.prop) {
-            case 'warehouse': {
-              item.change = () => {
-                this.warehouseNew = this.shelfForm.warehouse
-                this.warehouse_Wharf = this.warehouseNew + '_' + 'Wharf'
-                API.getData('dict', { SkipCount: 0, MaxResultCount: 20 }, 'all').then(res => {
-                  res.items.forEach(item => {
-                    this.DictName = item.name
-                    if (this.DictName.includes(this.warehouse_Wharf)) {
-                      API.getDict('dict', { name: this.warehouse_Wharf }).then(res => {
-                        this.configFormList[1].options = res.details
-                      })
-                    } else {
-                      // setTimeout(() => {
-                      this.configFormList[1].options = [{ label: '', value: '' }]
-                      this.$set(this.shelfForm, 'wharfNo', '')
-                      // }, 100)
-                    }
-                  })
-                })
-              }
-              break
-            }
-          }
-        })
-      } else {
-        if (this.shelfForm.warehosue !== '') {
-          this.warehouseNew = this.shelfForm.warehouse
-          this.warehouse_Wharf = this.warehouseNew + '_' + 'Wharf'
-          API.getData('dict', { SkipCount: 0, MaxResultCount: 20 }, 'all').then(res => {
-            res.items.forEach(item => {
-              this.DictName = item.name
-              if (this.DictName.includes(this.warehouse_Wharf)) {
-                API.getDict('dict', { name: this.warehouse_Wharf }).then(res => {
-                  this.configFormList[1].options = res.details
-                })
-              } else {
-                // setTimeout(() => {
-                this.configFormList[1].options = [{ label: '', value: '' }]
-                this.$set(this.shelfForm, 'wharfNo', '')
-                // }, 100)
-              }
-            })
-          })
-        }
-        if (this.shelfForm.warehosue === undefined) {
-          this.configFormList.forEach(item => {
-            switch (item.prop) {
-              case 'warehouse': {
-                item.change = () => {
-                  this.warehouseNew = this.shelfForm.warehouse
-                  this.warehouse_Wharf = this.warehouseNew + '_' + 'Wharf'
-                  API.getData('dict', { SkipCount: 0, MaxResultCount: 20 }, 'all').then(res => {
-                    res.items.forEach(item => {
-                      this.DictName = item.name
-                      if (this.DictName.includes(this.warehouse_Wharf)) {
-                        API.getDict('dict', { name: this.warehouse_Wharf }).then(res => {
-                          this.configFormList[1].options = res.details
-                        })
-                      } else {
-                        // setTimeout(() => {
-                        this.configFormList[1].options = [{ label: '', value: '' }]
-                        this.$set(this.shelfForm, 'wharfNo', '')
-                        // }, 100)
-                      }
-                    })
-                  })
-                }
-                break
-              }
-            }
-          })
-        }
+      this.$set(this.shelfForm, 'warehouse', this.listQuery.warehouseNo) // 将查询条件选择的仓库名称赋值给表单
+      if (this.listQuery.warehouseNo && this.listQuery.warehouseNo !== '') {
+        this.getWharf(this.listQuery.warehouseNo)
       }
+      // 根据仓库编码的值，获取码头下拉框的值
+      this.configFormList.forEach(item => {
+        switch (item.prop) {
+          case 'warehouse':
+            item.change = val => {
+              this.getWharf(val)
+            }
+            break
+        }
+      })
     },
     /* 下架确定 */
     toReportShelf() {

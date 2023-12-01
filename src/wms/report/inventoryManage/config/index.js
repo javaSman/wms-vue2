@@ -32,7 +32,6 @@ export const stockSearchItems = [
   { type: 'Input', label: '区域编码', prop: 'AreaNo' },
   { type: 'Input', label: '源条码', prop: 'SourceBarcode' },
   { type: 'Input', label: '当前SAP凭证', prop: 'ResultMsg' }
-
 ]
 // 库存报表权限
 export const inventoryCrud = {
@@ -54,7 +53,7 @@ export const inventoryBtnItems = [
     langLabel: 'button.offShelf',
     clickFun: 'toOffShelf',
     disabled: '',
-    permission: '',
+    permission: 'Report.StockManagements.BatchOutShelves',
     styleType: 'danger',
     icon: ''
   }

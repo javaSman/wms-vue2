@@ -8,7 +8,7 @@ export const queryItems = [
   { type: 'Input', label: '起始位置', prop: 'BeginPostion' },
   { type: 'Input', label: '结束位置', prop: 'EndPostion' },
   { type: 'Input', label: '备注', prop: 'Remark' },
-  // { type: 'Input', label: '需求号', prop: 'Byd_RequirementNo' },
+  { type: 'Input', label: '设备名称', prop: 'deviceID' },
   // { type: 'Input', label: '物料号', prop: 'areaID' },
   {
     type: 'DateRangePart',

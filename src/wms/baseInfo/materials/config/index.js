@@ -1,5 +1,5 @@
 export const queryItems = [
-  { type: 'Input', label: '物料编号', prop: 'MaterialNo' },
+  { type: 'BatchInput', label: '物料编号', prop: 'MaterialNo' },
   { type: 'Input', label: '物料名称', prop: 'MaterialDesc' }
   // { type: 'Select', label: '物料类型', prop: 'MaterialType', options: [] }
 ]
@@ -18,7 +18,25 @@ export const BtnItems = [
     disabled: '',
     permission: '',
     styleType: 'warning',
-    icon: 'el-icon-download'
+    icon: ''
+  },
+  {
+    // 可入立库
+    langLabel: 'button.inStorage',
+    clickFun: 'toInStorage',
+    disabled: '',
+    permission: '',
+    styleType: 'primary',
+    icon: ''
+  },
+  {
+    // 不可入立库
+    langLabel: 'button.noInStorage',
+    clickFun: 'toNoInStorage',
+    disabled: '',
+    permission: '',
+    styleType: 'primary',
+    icon: ''
   }
   // {
   //   // 同步物料信息

@@ -216,6 +216,7 @@ export default {
     boxPositionTrackProgressList: '箱子进度跟踪报表',
     boxOutTargetWharfIdList: '箱子出库目标码头报表',
     transferMaterialResumeList: '现场物料交接报表',
+    generateDeliveryNote: '生成送货单报表',
     // 订单管理
     orderManagement: '订单管理',
     DeliveryOrder: '送货单管理',
@@ -317,7 +318,9 @@ export default {
     SelectedUsers: '清空所选用户',
     AllUsers: '清空所有用户',
     PermissionExport: '权限导出',
-    advanced: '高级搜索'
+    advanced: '高级搜索',
+    inStorage: '可入立库',
+    noInStorage: '不可入立库'
   },
 
   // 对话框

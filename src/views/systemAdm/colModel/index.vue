@@ -139,7 +139,7 @@ export default {
         this.detailCol[3].options[0].children = res.details
       })
       // 获取‘表格列字典’选项
-      API.getData('dict', { IsPage: false }).then(res => {
+      API.getData('dict', { IsPage: false, SkipCount: 0, MaxResultCount: 9999999 }).then(res => {
         res.items.forEach(item => {
           item.label = item.description
           item.value = item.name

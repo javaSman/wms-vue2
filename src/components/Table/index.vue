@@ -717,13 +717,13 @@ export default {
       return this.tableRowClassName
 
       // 展开插槽配置为默认展开所有行时，添加箭头隐藏显示样式
-      if (this.hasExpandTable && this.expandAll) {
-        row.rowIndex = rowIndex // 增加行号
-        // 有展开表，但无子项，去除展开箭头样式
-        if (!row.hasChildren) {
-          return 'row-expand-disabled'
-        }
-      }
+      // if (this.hasExpandTable && this.expandAll) {
+      //   row.rowIndex = rowIndex // 增加行号
+      //   // 有展开表，但无子项，去除展开箭头样式
+      //   if (!row.hasChildren) {
+      //     return 'row-expand-disabled'
+      //   }
+      // }
     },
     /** 给表头加必选标识 */
     addRedStar(h, { column }) {

@@ -108,11 +108,11 @@ export default {
       API,
 
       dictID: '',
-      // listQuery: {
-      //   // Sorting: 'name',
-      //   SkipCount: 0,
-      //   MaxResultCount: 20
-      // },
+      listQuery: {
+        IsPage: true
+        // SkipCount: 0,
+        // MaxResultCount: 20
+      },
       form: {},
       dialogFormVisible: false,
       formTitle: '',

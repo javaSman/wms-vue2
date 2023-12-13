@@ -11,6 +11,8 @@
         @toEdit="handleUpdate()"
         @toDelete="handleDelete()"
         @toDownload="handleDownloadPast()"
+        @toInStorage="handleStorage(1)"
+        @toNoInStorage="handleStorage(0)"
       />
     </div>
     <ColDesign :col-list="column" :table-show.sync="tableShow" @resetCol="resetCol" />
@@ -104,7 +106,33 @@ export default {
         // delete this.exportParams.Ids
         this.exportPast('material', this.exportParams, 'Export')
       }
+    },
+    /* 是否可入库 */
+    async handleStorage(type) {
+      if (this.multipleSelection.length === 0) {
+        this.$message({
+          message: '请选择数据',
+          type: 'warning'
+        })
+        return
+      }
+      let _params = {
+        id: this.multipleSelection.map(item => item.id),
+        type: type
+      }
+      let res = await API.dataPost('material', _params, 'SetMaterialCube')
+      if (!res.success) {
+        this.$message({
+          message: res.message,
+          type: 'warning'
+        })
+        return
+      }
+      this.$message({
+        message: res.message,
+        type: 'success'
+      })
+      this.getList()
     }
-  }
-}
+  }}
 </script>

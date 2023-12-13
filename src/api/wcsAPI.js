@@ -186,3 +186,12 @@ export function GetTransferMaterialResumeList(data) {
     params: data
   })
 }
+
+// 生成送货单-查询
+export function getGenerateDeliveryNote(data) {
+  return request({
+    url: '9037Wcf/WarehouseService.svc/rest/GetMaterialDeliveryList',
+    method: 'get',
+    params: data
+  })
+}

@@ -681,6 +681,17 @@ export const asyncRoutes = [
           // roles: ['Report.transferMaterialResumeList'],
           icon: 'inShelves'
         }
+      },
+      // 生成送货单报表
+      {
+        path: 'generateDeliveryNote',
+        component: () => import('@/wms/report/generateDeliveryNote/index.vue'),
+        name: 'GenerateDeliveryNote',
+        meta: {
+          title: 'generateDeliveryNote',
+          // roles: [''],
+          icon: 'inStockAdm'
+        }
       }
     ]
   },
@@ -818,7 +829,7 @@ export const asyncRoutes = [
         name: 'OutStockRequest',
         meta: {
           title: 'outStockRequest',
-          roles: ['OutshelvesManagement.OutStockRequest'],
+          roles: ['OutshelvesManagement.Outshelves.OutStockRequest'],
           icon: 'outStockRequest'
         }
       }

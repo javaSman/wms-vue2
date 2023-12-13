@@ -331,7 +331,7 @@ export default {
 
     // 获取码头下拉框数据
     getWharf(val) {
-      API.getDict('dict', { name: this.val + '_' + 'Wharf' }).then(res => {
+      API.getDict('dict', { name: val + '_' + 'Wharf' }).then(res => {
         this.configFormList[1].options = res.details
       })
     },

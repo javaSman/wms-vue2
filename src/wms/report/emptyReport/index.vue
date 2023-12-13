@@ -100,7 +100,9 @@ export default {
     getDict() {
       // 载具类型
       API.getDict('dict', { name: 'BoxType' }).then(res => {
-        this.receiptReportItems[1].options = res.details
+        this.receiptReportItems[1].options = res.details.map(item => {
+          return {...item, value: item.label}
+        })
       })
       API.getDict('dict', { name: 'BoxPositionStatus' }).then(res => {
         this.receiptReportItems[4].options = res.details
